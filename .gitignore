@@ -1,0 +1,40 @@
+# Project spec / internal docs — not meant to be public
+SPEC.md
+adoption_platform.sql
+adoption_platform_db.sql
+
+# Maven / Java
+backend/target/
+*.class
+*.jar
+!.mvn/wrapper/maven-wrapper.jar
+*.log
+HELP.md
+
+# Node / React (frontend)
+frontend/node_modules/
+frontend/dist/
+frontend/build/
+frontend/.vite/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment / secrets
+.env
+.env.local
+*.env
+application-local.properties
+application-local.yml
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.classpath
+.project
+.settings/
+
+# OS
+.DS_Store
+Thumbs.db
