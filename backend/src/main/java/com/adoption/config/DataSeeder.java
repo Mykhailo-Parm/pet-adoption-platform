@@ -62,8 +62,10 @@ public class DataSeeder implements CommandLineRunner {
         Breed labrador = createBreed(dog, "Лабрадор-ретривер");
         Breed shepherd = createBreed(dog, "Німецька вівчарка");
         Breed mongrelDog = createBreed(dog, "Дворняга");
+        Breed husky = createBreed(dog, "Хаскі");
         Breed britishCat = createBreed(cat, "Британська короткошерста");
         Breed maineCoon = createBreed(cat, "Мейн-кун");
+        Breed siberianCat = createBreed(cat, "Сибірська кішка");
         Breed houseRabbit = createBreed(rabbit, "Домашній кріль");
 
         Shelter shelter1 = createShelter("Притулок \"Промінь\"", "prytulok.promin@example.com",
@@ -88,6 +90,20 @@ public class DataSeeder implements CommandLineRunner {
                 "Здоровий", false, false, "Активний пес, шукає люблячу родину.");
         createAnimal(shelter2, cat, britishCat, "Соня", 1, Gender.FEMALE, Size.SMALL,
                 "Здорова", false, true, "Тиха та ласкава кішечка.");
+
+        createAnimal(shelter1, dog, shepherd, "Джессі", 4, Gender.FEMALE, Size.LARGE,
+                "Здорова", true, true, "Спокійна досвідчена собака, підходить для сім'ї з дітьми.");
+        createAnimal(shelter1, cat, maineCoon, "Мурзик", 3, Gender.MALE, Size.LARGE,
+                "Здоровий", true, true, "Великий лагідний кіт, любить обійматися.");
+        createAnimal(shelter1, rabbit, houseRabbit, "Пухнастик", 2, Gender.MALE, Size.SMALL,
+                "Здоровий", false, false, "Активний кролик, любить овочі.");
+
+        createAnimal(shelter2, dog, husky, "Граф", 2, Gender.MALE, Size.LARGE,
+                "Здоровий", false, true, "Енергійний молодий пес, любить довгі прогулянки.");
+        createAnimal(shelter2, cat, siberianCat, "Дуся", 1, Gender.FEMALE, Size.MEDIUM,
+                "Здорова", false, true, "Пухнаста грайлива кішечка.");
+        createAnimal(shelter2, dog, mongrelDog, "Річард", 6, Gender.MALE, Size.MEDIUM,
+                "Здоровий", true, true, "Спокійний пес поважного віку, ідеальний компаньйон.");
 
         createUser(null, "Олена Коваль", "olena.guardian@example.com", "+380631112233",
                 "demo123", "Харків", UserRole.GUARDIAN);

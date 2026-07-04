@@ -29,4 +29,6 @@ public interface AnimalRepository extends JpaRepository<Animal, Long> {
                                   @Param("city") String city,
                                   @Param("gender") Gender gender,
                                   @Param("size") Size size);
+
+    List<Animal> findByShelter_Id(Long shelterId);
 }

@@ -2,6 +2,7 @@ package com.adoption.controller;
 
 import com.adoption.dto.AnimalCardDto;
 import com.adoption.dto.AnimalCreateRequest;
+import com.adoption.dto.AnimalUpdateRequest;
 import com.adoption.entity.Animal;
 import com.adoption.entity.Breed;
 import com.adoption.entity.Gender;
@@ -55,6 +56,13 @@ public class AnimalController {
         return toCardDto(animal);
     }
 
+    @GetMapping("/shelter/{shelterId}")
+    public List<AnimalCardDto> getByShelter(@PathVariable Long shelterId) {
+        return animalRepository.findByShelter_Id(shelterId).stream()
+                .map(this::toCardDto)
+                .toList();
+    }
+
     @PostMapping
     public AnimalCardDto create(@RequestBody AnimalCreateRequest request) {
         Shelter shelter = shelterRepository.findById(request.shelterId())
@@ -92,6 +100,41 @@ public class AnimalController {
         return toCardDto(animal);
     }
 
+    @PatchMapping("/{id}")
+    public AnimalCardDto update(@PathVariable Long id, @RequestBody AnimalUpdateRequest request) {
+        Animal animal = animalRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Тварину не знайдено: id=" + id));
+
+        Species species = speciesRepository.findById(request.speciesId())
+                .orElseThrow(() -> new EntityNotFoundException("Вид не знайдено: id=" + request.speciesId()));
+        Breed breed = null;
+        if (request.breedId() != null) {
+            breed = breedRepository.findById(request.breedId())
+                    .orElseThrow(() -> new EntityNotFoundException("Породу не знайдено: id=" + request.breedId()));
+        }
+
+        animal.setSpecies(species);
+        animal.setBreed(breed);
+        animal.setName(request.name());
+        animal.setAge(request.age());
+        if (request.gender() != null) {
+            animal.setGender(request.gender());
+        }
+        animal.setSize(request.size());
+        animal.setHealthStatus(request.healthStatus());
+        if (request.isSterilized() != null) {
+            animal.setIsSterilized(request.isSterilized());
+        }
+        if (request.isVaccinated() != null) {
+            animal.setIsVaccinated(request.isVaccinated());
+        }
+        animal.setMicrochipNumber(request.microchipNumber());
+        animal.setDescription(request.description());
+
+        animalRepository.save(animal);
+        return toCardDto(animal);
+    }
+
     private AnimalCardDto toCardDto(Animal a) {
         String shelterCity = null;
         if (a.getShelter() != null
@@ -105,11 +148,17 @@ public class AnimalController {
                 a.getAge(),
                 a.getGender(),
                 a.getSize(),
+                a.getSpecies() != null ? a.getSpecies().getId() : null,
                 a.getSpecies() != null ? a.getSpecies().getName() : null,
+                a.getBreed() != null ? a.getBreed().getId() : null,
                 a.getBreed() != null ? a.getBreed().getName() : null,
                 a.getStatus(),
                 a.getShelter() != null ? a.getShelter().getName() : null,
-                shelterCity
+                shelterCity,
+                a.getDescription(),
+                a.getHealthStatus(),
+                a.getIsSterilized(),
+                a.getIsVaccinated()
         );
     }
 }
